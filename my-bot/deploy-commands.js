@@ -1,49 +1,44 @@
 const { REST, Routes } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
-const chalk = require('chalk');
 
+// Replace with your bot's info
 const clientId = '1295714784624513035';
 const token = process.env.BOTTOKEN;
 
 const commands = [];
-const commandNames = [];
 
+// Path to the commands folder
 const commandsPath = path.join(__dirname, 'commands');
+
+// Get all .js files in the commands folder
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-console.log(chalk.cyan(`\nLoading ${commandFiles.length} command(s) from ./commands...\n`));
-
+// Load each command and push its data to the array
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
-  try {
-    const command = require(filePath);
-    if ('data' in command && 'execute' in command) {
-      commands.push(command.data.toJSON());
-      commandNames.push(command.data.name);
-      console.log(chalk.green(`✔ Loaded: ${command.data.name}`));
-    } else {
-      console.log(chalk.yellow(`⚠ Skipped: ${file} is missing "data" or "execute"`));
-    }
-  } catch (err) {
-    console.log(chalk.red(`✖ Error loading ${file}:`), err);
+  const command = require(filePath);
+  if (command?.data) {
+    commands.push(command.data.toJSON());
+  } else {
+    console.warn(`[WARNING] The command at ${filePath} is missing "data" or is not valid.`);
   }
 }
 
-const rest = new REST({ version: '10' }).setToken(token);
+// Deploy commands
+const rest = new REST().setToken(token);
 
 (async () => {
   try {
-    console.log(chalk.blue('\nDeploying global application (/) commands...\n'));
+    console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-    const data = await rest.put(
+    await rest.put(
       Routes.applicationCommands(clientId),
       { body: commands },
     );
 
-    console.log(chalk.green(`\n✅ Successfully deployed ${data.length} global command(s):`));
-    console.log(chalk.magentaBright(`- ${commandNames.join('\n- ')}`));
+    console.log('Successfully reloaded application (/) commands.');
   } catch (error) {
-    console.error(chalk.red('\n❌ Failed to deploy commands:'), error);
+    console.error(error);
   }
 })();

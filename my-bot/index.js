@@ -210,19 +210,6 @@ client.once('ready', () => {
   });
 });
 
-(async () => {
-  try {
-    const rest = new REST({ version: '10' }).setToken(process.env.BOTTOKEN);
-    console.log('Registering slash commands globally...');
 
-    await rest.put(Routes.applicationCommands(clientId), {
-      body: commands,
-    });
-
-    console.log('Successfully registered slash commands.');
-  } catch (error) {
-    console.error('Error registering commands:', error);
-  }
-})();
 // Log in to Discord
 client.login(process.env.BOTTOKEN);

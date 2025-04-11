@@ -23,11 +23,7 @@ author = 37293724
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node my-bot/index.js"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node my-bot/deploy-commands.js"
+args = "node my-bot/index.js & node my-bot/deploy-commands.js"
 
 [[ports]]
 localPort = 4000
