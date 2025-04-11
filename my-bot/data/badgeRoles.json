@@ -1,0 +1,22 @@
+{
+  "972244217927712899": {
+    "roles": {
+      "Discord Employee": "1360187796131942662",
+      "Discord Partner": "1360187796853096559",
+      "Discord Moderator": "1360187797775978610",
+      "HypeSquad Events": "1360187798409318510",
+      "Brilliance": "1360187799289991258",
+      "Bravery": "1360187799940239401",
+      "Balance": "1360187800988942418",
+      "BugHunter Terminator": "1360187801584406648",
+      "BugHunter": "1360187802507022336",
+      "Early Supporter": "1360187802813468684",
+      "Active Developer": "1360187804855959583",
+      "Verified Developer": "1360187805585768538",
+      "Bot": "1360187806000877619",
+      "Verified Bot": "1360187807754227772"
+    },
+    "debugChannel": "1360187808655872183",
+    "enableBadgeRoles": true
+  }
+}
