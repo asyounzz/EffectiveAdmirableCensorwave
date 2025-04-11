@@ -3,6 +3,17 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Routes } = require('discord-api-types/v10');
 const clientId = '1295714784624513035';
+const express = require('express')
+const app = express()
+const port = process.env.PORT || 4000;
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
 
 // Initialize the bot client
 const client = new Client({
