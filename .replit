@@ -28,3 +28,7 @@ args = "node my-bot/index.js"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "node my-bot/deploy-commands.js"
+
+[[ports]]
+localPort = 4000
+externalPort = 80
