@@ -1,6 +1,8 @@
-const { Client, Collection, GatewayIntentBits, Events, PresenceUpdateStatus } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Events, PresenceUpdateStatus, REST } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
+const { Routes } = require('discord-api-types/v10');
+const clientId = '1295714784624513035';
 
 // Initialize the bot client
 const client = new Client({
@@ -15,6 +17,7 @@ const client = new Client({
 client.commands = new Collection();
 
 // Load the commands from the 'commands' directory
+const commands = [];
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
@@ -195,5 +198,20 @@ client.once('ready', () => {
     status: 'online',
   });
 });
+
+(async () => {
+  try {
+    const rest = new REST({ version: '10' }).setToken(process.env.BOTTOKEN);
+    console.log('Registering slash commands globally...');
+
+    await rest.put(Routes.applicationCommands(clientId), {
+      body: commands,
+    });
+
+    console.log('Successfully registered slash commands.');
+  } catch (error) {
+    console.error('Error registering commands:', error);
+  }
+})();
 // Log in to Discord
 client.login(process.env.BOTTOKEN);
